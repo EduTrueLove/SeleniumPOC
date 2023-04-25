@@ -16,6 +16,9 @@ public class ResultsPage extends BasePage{
     @FindBy(xpath = "//h3[@class='woocommerce-loop-product__title']")
     public List<WebElement> resultTitleList;
 
+    @FindBy(css = ".woocommerce-info")
+    public WebElement noResultLabel;
+
 
     public ResultsPage(WebDriver driver){
         super(driver);
@@ -23,11 +26,10 @@ public class ResultsPage extends BasePage{
     }
 
 
-    public Boolean validateResultsMatchesWithTheSearchCriteria(String product){
+      public Boolean validateResultsMatchesWithTheSearchCriteria(String product){
         Boolean results = true;
 
         for (WebElement x: resultTitleList){
-            System.out.println(x.getText());
             if (!x.getText().toLowerCase().contains(product)){
                 results = false;
                 break;
@@ -35,4 +37,9 @@ public class ResultsPage extends BasePage{
         }
         return results;
     }
+
+    public Boolean noFoundResultsDisplayed(){
+        return isDisplayed(noResultLabel);
+    }
+
 }

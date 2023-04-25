@@ -21,6 +21,7 @@ public class WelcomePage extends BasePage{
     }
 
     public void acceptDisclaimerAndAdvertisement(){
+        waitUntilElementBeClickeable(closeAdvertisement);
         closeAdvertisement.click();
         acceptDisclamer.click();
     }

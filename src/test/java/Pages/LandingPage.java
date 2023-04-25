@@ -16,6 +16,10 @@ public class LandingPage extends BasePage{
     @FindBy(xpath = "(//div[@id='mini-cart']/following-sibling::div//i)[2]")
     public WebElement seachIconBar;
 
+    @FindBy(xpath = "//li[@id='nav-menu-item-1176']/a")
+    public WebElement myAccountTab;
+
+
 
     public LandingPage(WebDriver driver){
         super(driver);
@@ -28,11 +32,11 @@ public class LandingPage extends BasePage{
         seachIconBar.click();
     }
 
-    public void searchProductDos(String product){
-        searchIcon.click();
-        searchBar.sendKeys(product);
-        seachIconBar.click();
+    public void goToMyAccount(){
+        myAccountTab.click();
     }
+
+
 
 
 }
