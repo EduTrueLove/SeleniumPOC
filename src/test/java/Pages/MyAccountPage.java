@@ -1,28 +1,40 @@
 package Pages;
 
+import Utils.DataFactory.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static net.andreinc.mockneat.types.enums.NameType.FIRST_NAME_FEMALE;
+
 public class MyAccountPage extends BasePage{
+
+    private User user;
 
     @FindBy(name = "username")
     public WebElement emailLogInTextField;
-
     @FindBy(name = "password")
     public WebElement passwordLogInTextField;
-
     @FindBy(css = ".woocommerce-error")
     public WebElement invalidCredentialsLabel;
-
     @FindBy(name = "login")
     public WebElement logInButton;
+    @FindBy(id = "reg_billing_first_name")
+    public WebElement nameToBeRegisteredTextField;
+    @FindBy(id = "reg_billing_last_name")
+    public WebElement lastNameToBeRegisteredTextField;
+    @FindBy(id = "reg_email")
+    public WebElement emailToBeRegisteredTextField;
+    @FindBy(css = "button[value='Registrarse']")
+    public WebElement registerButton;
+
 
     public MyAccountPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver,this);
+        user = new User();
     }
 
     public void loginWithCredentials(String email, String password){
@@ -39,5 +51,12 @@ public class MyAccountPage extends BasePage{
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void tryToRegisterUser(){
+        nameToBeRegisteredTextField.sendKeys(user.getName());
+        lastNameToBeRegisteredTextField.sendKeys(user.getLastName());
+        emailToBeRegisteredTextField.sendKeys(user.getEmail());
+        registerButton.click();
     }
 }
