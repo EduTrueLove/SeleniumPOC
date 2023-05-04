@@ -1,9 +1,11 @@
 package Test;
 
 import Pages.WelcomePage;
+import Utils.Driver;
 import Utils.LoadProperties;
+import Utils.ScreenShot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -15,13 +17,15 @@ public class BaseTest {
 
     public WebDriver driver;
     public LoadProperties properties;
+    public ScreenShot sc;
 
     @BeforeClass
     public void setUp(){
-        driver = new ChromeDriver();
+        properties = new LoadProperties();
+        driver = new Driver(properties.getProperty("driver")).getDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        properties = new LoadProperties();
+        sc = new ScreenShot(driver);
     }
 
     @BeforeMethod
@@ -31,8 +35,9 @@ public class BaseTest {
         onWelcomePage.acceptDisclaimerAndAdvertisement();
     }
 
-    @AfterMethod
-    public void testTearDown(){
+    @AfterMethod(alwaysRun = true)
+    public void testTearDown(ITestResult result){
+        sc.takeScreenShot(result);
         driver.manage().deleteAllCookies();
     }
 
