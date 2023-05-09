@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LandingPage extends BasePage{
 
@@ -26,14 +27,16 @@ public class LandingPage extends BasePage{
         PageFactory.initElements(driver,this);
     }
 
-    public void searchProduct(String product){
+    public ResultsPage searchProduct(String product){
         searchIcon.click();
         searchBar.sendKeys(product);
         seachIconBar.click();
+        return PageFactory.initElements(driver,ResultsPage.class);
     }
 
-    public void goToMyAccount(){
+    public MyAccountPage goToMyAccount(){
         myAccountTab.click();
+        return PageFactory.initElements(driver,MyAccountPage.class);
     }
 
 

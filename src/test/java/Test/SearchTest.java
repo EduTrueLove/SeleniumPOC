@@ -5,37 +5,38 @@ import Pages.ResultsPage;
 import Pages.WelcomePage;
 
 
+import Utils.LoadDataProvider;
 import org.testng.Assert;
+import org.testng.ITestContext;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.lang.reflect.Method;
 
 
 public class SearchTest extends BaseTest{
 
-    @Test
-    public void correctSearch(){
-        String product = "bong";
-
-        // busqueda de un prodcuto
-        LandingPage onLandingPage = new LandingPage(driver);
-        onLandingPage.searchProduct(product);
-
-        //validacion de que los productos encontrados coincidan con la busqueda
-        ResultsPage onResultsPage = new ResultsPage(driver);
-        Assert.assertTrue(onResultsPage.validateResultsMatchesWithTheSearchCriteria(product),"The products displayed do not match with the search criteria");
+    @DataProvider(name = "dp")
+    public Object[][] dataProvider(Method method){
+        LoadDataProvider data = new LoadDataProvider();
+        return data.readXMLFile(method.getName());
     }
 
-    @Test
-    public void noResultSearch(){
-        String product = "mop";
+    @Test(dataProvider = "dp")
+    public void correctSearch(String productName, String errorMessage){
 
-        // busqueda de un prodcuto
         LandingPage onLandingPage = new LandingPage(driver);
-        onLandingPage.searchProduct(product);
+        ResultsPage onResultsPage = onLandingPage.searchProduct(productName);
 
-        //validacion de que los productos encontrados coincidan con la busqueda
-        ResultsPage onResultsPage = new ResultsPage(driver);
+        Assert.assertTrue(onResultsPage.validateResultsMatchesWithTheSearchCriteria(productName),errorMessage);
+    }
 
-        Assert.assertTrue(onResultsPage.noFoundResultsDisplayed(), "The no result label is not present");
+    @Test(dataProvider = "dp")
+    public void noResultSearch(String productName, String errorMessage){
+        LandingPage onLandingPage = new LandingPage(driver);
+        ResultsPage onResultsPage = onLandingPage.searchProduct(productName);
+
+        Assert.assertTrue(onResultsPage.noFoundResultsDisplayed(), errorMessage);
     }
 
 }

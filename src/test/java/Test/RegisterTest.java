@@ -12,12 +12,8 @@ public class RegisterTest extends BaseTest{
     @Test
     public void userRegisteredSuccessfully(){
         LandingPage onLandingPage = new LandingPage(driver);
-        onLandingPage.goToMyAccount();
+        UserPage onUserPage = onLandingPage.goToMyAccount().tryToRegisterUser();
 
-        MyAccountPage onMyAccountPage = new MyAccountPage(driver);
-        onMyAccountPage.tryToRegisterUser();
-
-        UserPage onUserPage = new UserPage(driver);
         Assert.assertTrue(onUserPage.userPanelDisplayed(), "Unable to be registered successfully");
     }
 

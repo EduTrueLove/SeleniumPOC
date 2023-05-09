@@ -37,10 +37,18 @@ public class MyAccountPage extends BasePage{
         user = new User();
     }
 
-    public void loginWithCredentials(String email, String password){
+    public MyAccountPage loginWithInvalidCredentials(String email, String password){
         emailLogInTextField.sendKeys(email);
         passwordLogInTextField.sendKeys(password);
         logInButton.click();
+        return PageFactory.initElements(driver, MyAccountPage.class);
+    }
+
+    public UserPage loginWithCredentials(String email, String password){
+        emailLogInTextField.sendKeys(email);
+        passwordLogInTextField.sendKeys(password);
+        logInButton.click();
+        return PageFactory.initElements(driver, UserPage.class);
     }
 
     public boolean invalidCredentialsMessageDisplayed(){
@@ -53,10 +61,11 @@ public class MyAccountPage extends BasePage{
         }
     }
 
-    public void tryToRegisterUser(){
+    public UserPage tryToRegisterUser(){
         nameToBeRegisteredTextField.sendKeys(user.getName());
         lastNameToBeRegisteredTextField.sendKeys(user.getLastName());
         emailToBeRegisteredTextField.sendKeys(user.getEmail());
         registerButton.click();
+        return PageFactory.initElements(driver,UserPage.class);
     }
 }
